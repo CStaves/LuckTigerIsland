@@ -8,6 +8,7 @@ public class PlayerWorldMove : MonoBehaviour {
     public float moveSpeed;
     public bool doMove = true;
     private Rigidbody2D m_rigidbody;
+    private Vector3 m_lastPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +25,7 @@ public class PlayerWorldMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
         //get player input (WASD)
         int m_xMove = Input.GetKey(KeyCode.A) ? -1 : (Input.GetKey(KeyCode.D) ? 1 : 0);
         int m_yMove = Input.GetKey(KeyCode.S) ? -1 : (Input.GetKey(KeyCode.W) ? 1 : 0);
@@ -35,6 +37,8 @@ public class PlayerWorldMove : MonoBehaviour {
     {
         if (doMove)
         {
+            m_lastPosition = transform.position;
+
             if (playerInput.magnitude > 0.1f)
             {
                 m_rigidbody.drag = 0f;
@@ -50,4 +54,6 @@ public class PlayerWorldMove : MonoBehaviour {
             m_rigidbody.simulated = false;
         }
     }
+
+
 }
