@@ -40,7 +40,7 @@ public class Enemy_AI : MonoBehaviour {
 	{
 		m_requiredTurn = turnNo;
 	}
-	public int GetSpeed()
+	int GetSpeed()
 	{
 		return m_Speed;
 	}
