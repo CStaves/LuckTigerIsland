@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharaClass : MonoBehaviour {
+public class Entity : MonoBehaviour
+{
 
-    public int health;
-    public int strength; //basic attack
-    public int defense;
-    public int speed;
-    public int level;
+    protected int m_health;
+    protected int m_mana;
+    protected int m_strength;
+    protected int m_defense;
+    protected int m_defenseMGC;
+    protected int m_speed;
+    protected int m_magicPow;
+
+    public int m_level; //current level of the character
+    public int m_XP; //amount of xp given out
 
     public int tempDMGReduct = 0; //the amount of damage reduced to the intial damage
     public int totalDMG = 0; //total amount of damage that goes through.
@@ -22,56 +28,57 @@ public class CharaClass : MonoBehaviour {
     public bool dmgRecieve = false;
     public bool dmgDealt = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    // Use this for initialization
+    void Start()
     {
-        yield return new WaitForSeconds(1.5f);
-        health --;
-	}
+
+    }
+
+    // Update is called once per frame
+    //void Update ()
+    //{
+    //    yield return new WaitForSeconds(1.5f);
+    //    health --;
+    //}
     //-----------------------------------------------------------------------------------------------------
     //Setters and Getters
-    public void Sethealth(int m_health)
+    public void Sethealth(int _health) //The argument should be _health. The body should then be m_health = _health.
     {
-        health = m_health;
+        m_health = _health;
     }
     public int GetHealth()
     {
-        return health;
+        return m_health;
     }
     public int GetStrength()
     {
-        return strength;
+        return m_strength;
     }
 
     public int GetDefense()
     {
-        return defense;
+        return m_defense;
     }
 
     public int GetSpeed()
     {
-        return speed;
+        return m_speed;
     }
 
-    public void SetLevel(int m_level)
+    public void SetLevel(int _level)
     {
-        level = m_level;
+        m_level = _level;
     }
-    
+
     public int GetLevel()
     {
-        return level;
+        return m_level;
     }
 
     //-----------------------------------------------------------------------------------------------------
     protected void Attack()
     {
-        if(attacking == true)
+        if (attacking == true)
         {
             chanceToHit = Random.Range(1, 100);
 
@@ -81,7 +88,7 @@ public class CharaClass : MonoBehaviour {
             }
             else
                 return;
-     
+
         }
     }
 
@@ -91,13 +98,15 @@ public class CharaClass : MonoBehaviour {
         {
             GetStrength();
             GetDefense();
-            //(GetStrength() / GetDefense() = tempDMGReduct) GetStrength - tempDMGReduct = totalDMG;
+            tempDMGReduct = GetStrength() / GetDefense();
+            totalDMG = GetStrength() - tempDMGReduct;
+
             dmgRecieve = false;
             dmgDealt = true;
 
-            if(dmgDealt == true)
+            if (dmgDealt == true)
             {
-                //m_health - totalDMG;
+                m_health = m_health - totalDMG;
                 dmgDealt = false;
             }
         }
@@ -105,10 +114,11 @@ public class CharaClass : MonoBehaviour {
 
     protected void Death()
     {
-        if (health <= 0)
+        if (m_health <= 0)
         {
             Destroy(gameObject);
         }
-     
+
     }
 }
+
